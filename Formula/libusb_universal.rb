@@ -7,6 +7,7 @@ class LibusbUniversal < Formula
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
+  conflicts_with "libusb", because: "libusb_universal also ships a full libusb"
 
   def build_arch(arch)
     rm "Makefile", force: true
@@ -26,6 +27,14 @@ class LibusbUniversal < Formula
     mv "#{prefix}/x86_64/include", "#{prefix}/"
   end
 
+  def fix_prefix_in_pkgconfig
+    data = File.read("#{prefix}/x86_64/lib/pkgconfig/libusb-1.0.pc")
+    new_data = data.gsub("/x86_64", "")
+    File.open("#{lib}/pkgconfig/libusb-1.0.pc", "w") do |f|
+      f.write(new_data)
+    end
+  end
+
   def clear
     rm_r "#{prefix}/x86_64", force: true
     rm_r "#{prefix}/arm64", force: true
@@ -35,6 +44,7 @@ class LibusbUniversal < Formula
     build_arch("x86_64")
     build_arch("arm64")
     join
+    fix_prefix_in_pkgconfig
     clear
   end
 
