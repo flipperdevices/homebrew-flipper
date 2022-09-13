@@ -7,6 +7,7 @@ class LibusbUniversal < Formula
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
+  depends_on :arch => :arm64
   conflicts_with "libusb", because: "libusb_universal also ships a full libusb"
 
   def build_arch(arch)
@@ -43,12 +44,18 @@ class LibusbUniversal < Formula
   def install
     build_arch("x86_64")
     build_arch("arm64")
+    (pkgshare/"examples").install Dir["examples/*"] - Dir["examples/Makefile*"]
     join
     fix_prefix_in_pkgconfig
-    clear
+    #clear
   end
 
   test do
-    system "true"
+    cp_r (pkgshare/"examples"), testpath
+    cd "examples" do
+      system ENV.cc, "listdevs.c", "-L#{lib}", "-I#{include}/libusb-1.0",
+             "-lusb-1.0", "-o", "test"
+      system "./test"
+    end
   end
 end
