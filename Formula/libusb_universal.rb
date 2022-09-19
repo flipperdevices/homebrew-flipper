@@ -1,6 +1,6 @@
 class LibusbUniversal < Formula
   desc "Dual-platform library for USB device access"
-  homepage "https://libusb.info/"
+  homepage "https://github.com/flipperdevices/homebrew-flipper"
   url "https://github.com/libusb/libusb/releases/download/v1.0.24/libusb-1.0.24.tar.bz2"
   sha256 "7efd2685f7b327326dcfb85cee426d9b871fd70e22caa15bb68d595ce2a2b12a"
   license "LGPL-2.1-or-later"
@@ -9,6 +9,12 @@ class LibusbUniversal < Formula
   depends_on "automake" => :build
   depends_on :arch => :arm64
   conflicts_with "libusb", because: "libusb_universal also ships a full libusb"
+
+  bottle do
+    root_url "https://github.com/flipperdevices/homebrew-flipper/releases/latest/download"
+    rebuild 1
+    sha256 cellar: :any, arm64_monterey: "1d77c218164285154a3d93dbab2adff994fa83e5829bb6bd5ca525e16c84b1dd"
+  end
 
   def build_arch(arch)
     rm "Makefile", force: true
