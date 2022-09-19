@@ -47,7 +47,7 @@ class LibusbUniversal < Formula
     (pkgshare/"examples").install Dir["examples/*"] - Dir["examples/Makefile*"]
     join
     fix_prefix_in_pkgconfig
-    #clear
+    clear
   end
 
   test do
