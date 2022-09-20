@@ -17,6 +17,11 @@ class QtUniversal < Formula
   uses_from_macos "gperf" => :build
   uses_from_macos "perl"  => :build
 
+  bottle do
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "60d890531435d56d0ca6de50c36a1475900eba6459ea1a4e887bcab837e142d1"
+  end
+
   fails_with gcc: "5"
 
   # Remove symlink check causing build to bail out and fail.
@@ -25,16 +30,6 @@ class QtUniversal < Formula
     url "https://raw.githubusercontent.com/Homebrew/formula-patches/c363f0edf9e90598d54bc3f4f1bacf95abbda282/qt/qt_internal_check_if_path_has_symlinks.patch"
     sha256 "1afd8bf3299949b2717265228ca953d8d9e4201ddb547f43ed84ac0d7da7a135"
     directory "qtbase"
-  end
-
-  def relink_plugins
-    #for CUR in $(find . -type f -name "*.cmake" -or -name "*.pri" -or -name "*.prl"); do  sed -i '' 's/\/tmp\/qt-20220920-44821-91zlal\/qt-everywhere-src-6.3.1\/qtbase/\/opt\/homebrew\/Cellar\/qt\/6.3.1_4/g' $CUR; done
-
-    configFiles = %x[find . -type f -name "*.cmake" -or -name "*.pri" -or -name "*.prl"]
-    buildPath = "#{buildpath}".sub("/private", "") + "/qtbase"
-    configFiles.each do |filename|
-      system "sed", "s/#{buildPath}/#{prefix}/g", "#{filename}"
-    end
   end
 
   def install
