@@ -84,7 +84,7 @@ class QtUniversal < Formula
     rm bin/"qt-cmake-private-install.cmake"
 
     realBuildPath = "#{buildpath}".sub("/private", "") + "/qtbase"
-    inreplace Dir["#{prefix}/**/*.{pri,cmake,prl}"], "#{realBuildPath}", "#{prefix}"
+    inreplace Dir["#{prefix}/**/*.{pri,cmake,prl}"], "#{realBuildPath}", "#{prefix}", false
     inreplace lib/"cmake/Qt6/qt.toolchain.cmake", "#{Superenv.shims_path}/", ""
 
     # The pkg-config files installed suggest that headers can be found in the
