@@ -18,6 +18,7 @@ class QtUniversal < Formula
   uses_from_macos "perl"  => :build
 
   bottle do
+    root_url "https://github.com/flipperdevices/homebrew-flipper/releases/latest/download"
     rebuild 1
     sha256 cellar: :any_skip_relocation, arm64_monterey: "60d890531435d56d0ca6de50c36a1475900eba6459ea1a4e887bcab837e142d1"
   end
