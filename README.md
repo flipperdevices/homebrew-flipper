@@ -8,3 +8,8 @@ Install libusb
 ```bash
 brew install libusb_universal
 ```
+
+Install qt
+```bash
+brew install qt_universal
+```
